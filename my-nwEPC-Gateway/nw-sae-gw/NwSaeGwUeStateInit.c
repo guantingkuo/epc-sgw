@@ -1116,7 +1116,6 @@ nwSaeGwUeHandleSgwS11CreateSessionRequest(NwSaeGwUeT* thiz, NwSaeGwUeEventInfoT*
         pUlpApi->apiInfo.initialReqIndInfo.hTrxn, 
         &error,
         &createSessReq);
-    nwSaeGwUlpDelSgwUeSessionOnError(thiz->hSgw, thiz);
     return NW_OK;
   }
 

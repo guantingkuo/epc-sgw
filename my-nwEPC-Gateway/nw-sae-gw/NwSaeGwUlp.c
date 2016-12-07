@@ -1331,13 +1331,12 @@ nwSaeGwUlpDeregisterCollocatedPgw(NwSaeGwUlpT* thiz, NwSaeGwUlpT* pCollocatedPgw
 NwRcT
 nwSaeGwUlpDelSgwUeSessionOnError(NwU32T hSgw, NwSaeGwUeT *pUe)
 {
-	NwSaeGwUlpT *thiz = (NwSaeGwUlpT*) hSgw;
-	nwSaeGwUlpRemoveDownlinkEpsBearer(thiz,pUe,5);
-	nwSaeGwUlpRemoveUplinkEpsBearer(thiz,pUe,5);
-	nwSaeGwUlpSgwDeregisterUeSession(thiz,pUe);
-	pUe->state = NW_SAE_GW_UE_STATE_END;
-	//nwSaeGwUeDelete(pUe);
-	return NW_OK;
+    NwSaeGwUlpT *thiz = (NwSaeGwUlpT*) hSgw;
+    nwSaeGwUlpRemoveDownlinkEpsBearer(thiz,pUe,5);
+    nwSaeGwUlpRemoveUplinkEpsBearer(thiz,pUe,5);
+    nwSaeGwUlpSgwDeregisterUeSession(thiz,pUe);
+    pUe->state = NW_SAE_GW_UE_STATE_END;
+    return NW_OK;
 }
 /* add end */
 
@@ -1356,7 +1355,12 @@ nwSaeGwUlpRegisterSgwUeSession(NwU32T hSgw, NwSaeGwUeT *pUe, NwU32T pgwIpv4Addr,
   {
     NW_SAE_GW_LOG(NW_LOG_LEVEL_ERRO, "UE with IMSI %llx registration failed as UE is already registered.", NW_NTOHLL(((*(NwU64T*)pUe->imsi))));
     *hPgw = (NwU32T) 0;
-    return NW_FAILURE;
+    /* add for reonline error by guan */
+    nwSaeGwUlpDelSgwUeSessionOnError(pCollision->hSgw, pCollision);
+    nwSaeGwUeDelete(pCollision);
+    /* add end */
+    //return NW_FAILURE;
+    RB_INSERT(NwUeSgwSessionRbtT, &thiz->ueSgwSessionRbt, pUe);
   }
 
   TAILQ_FOREACH(pPgwListIter, &thiz->collocatedPgwList, collocatedPgwListNode) 

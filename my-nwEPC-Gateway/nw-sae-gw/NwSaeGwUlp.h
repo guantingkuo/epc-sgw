@@ -145,8 +145,10 @@ nwSaeGwUlpRegisterCollocatedPgw(NwSaeGwUlpT* thiz, NwSaeGwUlpT* pCollocatedPgw);
 NwRcT
 nwSaeGwUlpDeregisterCollocatedPgw(NwSaeGwUlpT* thiz, NwSaeGwUlpT* pCollocatedPgw);
 
+/* add for reonline error by guan */
 NwRcT
 nwSaeGwUlpDelSgwUeSessionOnError(NwU32T hSgw, NwSaeGwUeT *pUe);
+/* add end */
 
 NwRcT
 nwSaeGwUlpRegisterSgwUeSession(NwU32T hSgw, NwSaeGwUeT *pUe, NwU32T pgwIpv4Addr, NwU32T *hPgw);

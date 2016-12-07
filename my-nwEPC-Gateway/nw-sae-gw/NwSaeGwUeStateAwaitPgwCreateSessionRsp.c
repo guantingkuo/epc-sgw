@@ -243,7 +243,7 @@ nwSaeGwUeSgwSendCreateSessionResponseToMme(NwSaeGwUeT* thiz,
     NW_ASSERT( NW_OK == rc );
 
     /* TODO : Get value of control plane IPv4 address from SGW handle */
-	thiz->s11cTunnel.fteidSgw.teidOrGreKey=(NwU32T)thiz;
+    thiz->s11cTunnel.fteidSgw.teidOrGreKey=(NwU32T)thiz;
     rc = nwGtpv2cMsgAddIeFteid((ulpReq.hMsg), 
         0, 
         NW_GTPV2C_IFTYPE_S11S4_SGW_GTPC, 
@@ -304,6 +304,7 @@ nwSaeGwUeSgwSendCreateSessionResponseToMme(NwSaeGwUeT* thiz,
   else
   {
     NW_UE_LOG(NW_LOG_LEVEL_ERRO, "Create Session Request rejected by PGW!");
+    /* add for reonline error by guan */
     rc = nwGtpv2cMsgSetTeid((ulpReq.hMsg), thiz->s11cTunnel.fteidMme.teidOrGreKey);
     NW_ASSERT( NW_OK == rc );
 
@@ -311,6 +312,7 @@ nwSaeGwUeSgwSendCreateSessionResponseToMme(NwSaeGwUeT* thiz,
     NW_ASSERT( NW_OK == rc );
     
     return rc;
+    /* add end */
   }
 
   rc = nwGtpv2cMsgSetTeid((ulpReq.hMsg), thiz->s11cTunnel.fteidMme.teidOrGreKey);
@@ -530,8 +532,10 @@ nwSaeGwUeHandlePgwCreateSessionResponse(NwSaeGwUeT* thiz, NwSaeGwUeEventInfoT* p
   {
     NW_UE_LOG(NW_LOG_LEVEL_ERRO, "Create Session Response Message received with error cause %u for IE %u of instance %u!", (NwU32T)(pUlpApi->apiInfo.triggeredRspIndInfo.error.cause), pUlpApi->apiInfo.triggeredRspIndInfo.error.offendingIe.type, pUlpApi->apiInfo.triggeredRspIndInfo.error.offendingIe.instance);
 
+    /* add for reonline error by guan */
     nwSaeGwUeSgwSendCreateSessionResponseToMme(thiz, pUlpApi->apiInfo.triggeredRspIndInfo.hUlpTrxn, pUlpApi->apiInfo.triggeredRspIndInfo.error.cause, 5, 0);
     nwSaeGwUlpDelSgwUeSessionOnError(thiz->hSgw,thiz);
+    /* add end */
     return NW_OK;
   }
   /* Check if all conditional IEs have been received properly. */
